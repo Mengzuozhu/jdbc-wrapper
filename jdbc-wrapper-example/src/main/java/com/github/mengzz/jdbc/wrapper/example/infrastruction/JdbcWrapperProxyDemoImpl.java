@@ -7,7 +7,8 @@ import com.github.mengzz.jdbc.wrapper.example.model.UserQuery;
 import com.github.mengzz.jdbc.wrapper.wrapper.ConditionWrapper;
 import com.github.mengzz.jdbc.wrapper.wrapper.UpdateWrapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.relational.core.sql.*;
+import org.springframework.data.relational.core.sql.Table;
+import org.springframework.data.relational.core.sql.Update;
 import org.springframework.stereotype.Repository;
 
 /**
