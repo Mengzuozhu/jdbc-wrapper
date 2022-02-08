@@ -5,22 +5,14 @@ import com.github.mengzz.jdbc.wrapper.example.config.CustomWhereInterceptor;
 import com.github.mengzz.jdbc.wrapper.example.model.User;
 import com.github.mengzz.jdbc.wrapper.example.model.UserQuery;
 import org.junit.Assert;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.LongStream;
 import java.util.stream.StreamSupport;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,27 +21,19 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author mengzz
  **/
 class UserServiceTest extends BaseSpringTest {
-    private static final Integer AGE = 24;
-    private static final Long BATCH_SIZE = 10L;
-    private static final String TEST = "test";
     @Autowired
     private UserService userService;
 
-    @AfterEach
-    void tearDown() {
-        userService.deleteAll();
-    }
-
     @Test
     void findById() {
-        User user = userService.save(buildUser());
+        User user = save();
         Optional<User> result = userService.findById(user.getId());
         assertTrue(result.isPresent());
     }
 
     @Test
     void findByAge() {
-        User user = userService.save(buildUser());
+        User user = save();
         List<User> users = userService.findByAge(user.getAge());
         assertEquals(1, users.size());
         assertEquals(user.getAge(), users.get(0).getAge());
@@ -57,7 +41,7 @@ class UserServiceTest extends BaseSpringTest {
 
     @Test
     void updateAge() {
-        User user = userService.save(buildUser());
+        User user = save();
         Integer age = 26;
         userService.updateAge(user.getId(), age);
         Optional<User> result = userService.findById(user.getId());
@@ -67,7 +51,7 @@ class UserServiceTest extends BaseSpringTest {
 
     @Test
     void updateName() {
-        User user = userService.save(buildUser());
+        User user = save();
         String name = "new";
         userService.updateName(user.getId(), name);
         Optional<User> result = userService.findById(user.getId());
@@ -76,8 +60,8 @@ class UserServiceTest extends BaseSpringTest {
     }
 
     @Test
-    void save() {
-        User user = userService.save(buildUser());
+    void saveTest() {
+        User user = save();
         assertNotNull(user);
     }
 
@@ -171,25 +155,6 @@ class UserServiceTest extends BaseSpringTest {
                 .remarkMsg("%demo1%")
                 .build());
         Assert.assertNotNull(CustomWhereInterceptor.getRecord());
-    }
-
-    private Iterable<User> saveAll() {
-        List<User> users = LongStream.range(0, BATCH_SIZE)
-                .mapToObj(this::buildUser)
-                .collect(Collectors.toList());
-        return userService.saveAll(users);
-    }
-
-    private User buildUser() {
-        return buildUser(1);
-    }
-
-    private User buildUser(long i) {
-        return User.builder()
-                .name(TEST + i)
-                .remarkMsg("spring jdbc demo" + i)
-                .age(AGE)
-                .build();
     }
 
 }

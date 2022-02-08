@@ -20,6 +20,21 @@ class JdbcWrapperProxyDemoTest extends BaseSpringTest {
     private JdbcWrapperProxyDemo jdbcWrapperProxyDemo;
 
     @Test
+    void queryFirst() {
+        User user = save();
+        User res = jdbcWrapperProxyDemo.queryFirst(UserQuery.builder()
+                .age(user.getAge())
+                .build());
+        assertThat(res).isNotNull();
+    }
+
+    @Test
+    void queryForFirstShouldNull() {
+        User res = jdbcWrapperProxyDemo.queryFirst(getQuery());
+        assertThat(res).isNull();
+    }
+
+    @Test
     void queryForObjectShouldNull() {
         User res = jdbcWrapperProxyDemo.queryForObject(getQuery());
         assertThat(res).isNull();

@@ -33,6 +33,13 @@ public class JdbcWrapperProxyDemoImpl implements JdbcWrapperProxyDemo, JdbcWrapp
     }
 
     @Override
+    public User queryFirst(UserQuery userQuery) {
+        ConditionWrapper where = ConditionWrapper.of(table())
+                .andEq(User.Fields.name, userQuery.getName());
+        return queryFirst(where);
+    }
+
+    @Override
     public User queryForObject(UserQuery userQuery) {
         ConditionWrapper where = ConditionWrapper.of(table())
                 .andEq(User.Fields.name, userQuery.getName());
