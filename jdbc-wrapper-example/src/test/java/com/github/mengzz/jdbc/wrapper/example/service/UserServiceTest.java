@@ -41,6 +41,13 @@ class UserServiceTest extends BaseSpringTest {
     }
 
     @Test
+    void findByAgeShouldEmpty() {
+        User user = save();
+        List<User> users = userService.findByAge(1);
+        assertEquals(0, users.size());
+    }
+
+    @Test
     void updateAge() {
         User user = save();
         Integer age = 26;
