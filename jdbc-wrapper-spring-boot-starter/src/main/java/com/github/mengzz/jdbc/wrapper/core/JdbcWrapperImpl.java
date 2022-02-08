@@ -3,6 +3,7 @@ package com.github.mengzz.jdbc.wrapper.core;
 import com.github.mengzz.jdbc.wrapper.interceptor.Interceptor;
 import com.github.mengzz.jdbc.wrapper.interceptor.SelectInterceptor;
 import com.github.mengzz.jdbc.wrapper.wrapper.RendererWrapper;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jdbc.core.convert.EntityRowMapper;
@@ -83,7 +84,11 @@ public class JdbcWrapperImpl implements JdbcWrapper {
     @Override
     public <T> T queryForObject(Select select, Class<T> type) {
         EntityRowMapper<T> entityRowMapper = getEntityRowMapper(type);
-        return getJdbcOperations().queryForObject(render(select), entityRowMapper);
+        try {
+            return getJdbcOperations().queryForObject(render(select), entityRowMapper);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     @Override
