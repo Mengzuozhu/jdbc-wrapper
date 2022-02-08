@@ -4,6 +4,7 @@ import com.github.mengzz.jdbc.wrapper.example.BaseSpringTest;
 import com.github.mengzz.jdbc.wrapper.example.config.CustomWhereInterceptor;
 import com.github.mengzz.jdbc.wrapper.example.model.User;
 import com.github.mengzz.jdbc.wrapper.example.model.UserQuery;
+import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -132,6 +133,15 @@ class UserServiceTest extends BaseSpringTest {
                 .age(AGE)
                 .build());
         assertEquals(1, count.intValue());
+    }
+
+    @Test
+    void countShouldZero() {
+        save();
+        Long count = userService.count(UserQuery.builder()
+                .name(TEST)
+                .build());
+        assertEquals(0L, count);
     }
 
     @Test
