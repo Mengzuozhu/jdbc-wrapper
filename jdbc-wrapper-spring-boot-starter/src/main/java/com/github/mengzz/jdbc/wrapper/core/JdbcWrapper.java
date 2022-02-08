@@ -75,6 +75,26 @@ public interface JdbcWrapper {
     <T> Page<T> page(Select select, Pageable pageable, Class<T> type);
 
     /**
+     * Query first.
+     *
+     * @param <T>   the type parameter
+     * @param where the where
+     * @param type  the type
+     * @return the t
+     */
+    <T> T queryFirst(Condition where, Class<T> type);
+
+    /**
+     * Query first.
+     *
+     * @param <T>    the type parameter
+     * @param select the select
+     * @param type   the type
+     * @return the t
+     */
+    <T> T queryFirst(Select select, Class<T> type);
+
+    /**
      * Query for object.
      *
      * @param <T>   the type parameter

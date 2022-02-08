@@ -32,6 +32,12 @@ class SqlSupporterTest {
     }
 
     @Test
+    void buildSelectFirst() {
+        String str = rendererWrapper.render(supporter.buildSelectFirst(wrapper, User.class));
+        assertThat(str).isEqualTo("SELECT user.id, user.name FROM user WHERE user.name = 'test' LIMIT 1");
+    }
+
+    @Test
     void pageSelect() {
         PageRequest pageable = PageRequest.of(0, 5, Sort.Direction.DESC, User.Fields.id);
         String str = rendererWrapper.render(supporter.pageSelect(wrapper, pageable, User.class));

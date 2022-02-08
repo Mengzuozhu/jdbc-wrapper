@@ -14,6 +14,7 @@ import org.springframework.data.relational.core.sql.*;
 import org.springframework.data.repository.support.PageableExecutionUtils;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -73,6 +74,18 @@ public class JdbcWrapperImpl implements JdbcWrapper {
         Where where = SelectInterceptor.visit(select).getWhere();
         List<T> content = getJdbcOperations().query(render(select), entityRowMapper);
         return PageableExecutionUtils.getPage(content, pageable, () -> pageCount(where, type));
+    }
+
+    @Override
+    public <T> T queryFirst(Condition where, Class<T> type) {
+        Select select = sqlSupporter.buildSelectFirst(where, type);
+        return queryFirst(select, type);
+    }
+
+    @Override
+    public <T> T queryFirst(Select select, Class<T> type) {
+        List<T> list = query(select, type);
+        return CollectionUtils.firstElement(list);
     }
 
     @Override

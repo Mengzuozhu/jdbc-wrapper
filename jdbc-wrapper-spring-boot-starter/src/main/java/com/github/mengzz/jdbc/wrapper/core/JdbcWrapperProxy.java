@@ -91,6 +91,26 @@ public interface JdbcWrapperProxy<T> {
     }
 
     /**
+     * Query first.
+     *
+     * @param where the where
+     * @return the t
+     */
+    default T queryFirst(Condition where) {
+        return getJdbcWrapper().queryFirst(where, getGeneticClass());
+    }
+
+    /**
+     * Query first.
+     *
+     * @param select the select
+     * @return the t
+     */
+    default T queryFirst(Select select) {
+        return getJdbcWrapper().queryFirst(select, getGeneticClass());
+    }
+
+    /**
      * Query for object.
      *
      * @param where the where
