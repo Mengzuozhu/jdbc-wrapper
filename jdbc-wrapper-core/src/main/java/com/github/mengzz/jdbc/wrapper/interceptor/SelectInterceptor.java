@@ -1,6 +1,5 @@
 package com.github.mengzz.jdbc.wrapper.interceptor;
 
-import org.springframework.data.relational.core.sql.From;
 import org.springframework.data.relational.core.sql.SelectList;
 import org.springframework.data.relational.core.sql.Visitable;
 import org.springframework.data.relational.core.sql.Where;
@@ -13,7 +12,6 @@ import org.springframework.lang.Nullable;
  */
 public class SelectInterceptor implements Interceptor {
     private SelectList selectList;
-    private From from;
     @Nullable
     private Where where;
 
@@ -31,10 +29,6 @@ public class SelectInterceptor implements Interceptor {
         return selectList;
     }
 
-    public From getFrom() {
-        return from;
-    }
-
     @Nullable
     public Where getWhere() {
         return where;
@@ -50,8 +44,6 @@ public class SelectInterceptor implements Interceptor {
             where = (Where) segment;
         } else if (segment instanceof SelectList) {
             selectList = (SelectList) segment;
-        } else if (segment instanceof From) {
-            from = (From) segment;
         }
     }
 
