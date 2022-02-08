@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import java.util.Map;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -19,10 +21,20 @@ class JdbcWrapperProxyDemoTest extends BaseSpringTest {
 
     @Test
     void queryForObjectShouldNull() {
-        User res = jdbcWrapperProxyDemo.queryForObject(UserQuery.builder()
-                .name("")
-                .build());
+        User res = jdbcWrapperProxyDemo.queryForObject(getQuery());
         assertThat(res).isNull();
+    }
+
+    @Test
+    void queryForMapShouldNull() {
+        Map<String, Object> res = jdbcWrapperProxyDemo.queryForMap(getQuery());
+        assertThat(res).isNull();
+    }
+
+    private UserQuery getQuery() {
+        return UserQuery.builder()
+                .name("")
+                .build();
     }
 
 }

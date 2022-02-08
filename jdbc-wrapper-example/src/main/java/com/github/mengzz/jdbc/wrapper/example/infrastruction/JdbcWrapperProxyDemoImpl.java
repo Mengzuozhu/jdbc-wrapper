@@ -11,6 +11,8 @@ import org.springframework.data.relational.core.sql.Table;
 import org.springframework.data.relational.core.sql.Update;
 import org.springframework.stereotype.Repository;
 
+import java.util.Map;
+
 /**
  * @author mengzz
  **/
@@ -35,6 +37,13 @@ public class JdbcWrapperProxyDemoImpl implements JdbcWrapperProxyDemo, JdbcWrapp
         ConditionWrapper where = ConditionWrapper.of(table())
                 .andEq(User.Fields.name, userQuery.getName());
         return queryForObject(where);
+    }
+
+    @Override
+    public Map<String, Object> queryForMap(UserQuery userQuery) {
+        ConditionWrapper where = ConditionWrapper.of(table())
+                .andEq(User.Fields.name, userQuery.getName());
+        return queryForMap(where);
     }
 
     @Override
