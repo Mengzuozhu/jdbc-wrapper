@@ -3,6 +3,7 @@ package com.github.mengzz.jdbc.wrapper.config;
 import com.github.mengzz.jdbc.wrapper.core.JdbcWrapper;
 import com.github.mengzz.jdbc.wrapper.core.JdbcWrapperImpl;
 import com.github.mengzz.jdbc.wrapper.interceptor.Interceptor;
+import com.github.mengzz.jdbc.wrapper.wrapper.RendererWrapper;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -30,6 +31,12 @@ public class JdbcWrapperAutoConfiguration {
         JdbcWrapperImpl jdbcDecorator = new JdbcWrapperImpl(operations, mappingContext, converter, dialect);
         jdbcDecorator.setInterceptors(interceptors.getIfAvailable());
         return jdbcDecorator;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(RendererWrapper.class)
+    public RendererWrapper rendererWrapper(Dialect dialect) {
+        return RendererWrapper.create(dialect);
     }
 
 }

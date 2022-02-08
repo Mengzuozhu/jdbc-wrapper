@@ -24,6 +24,10 @@ public class RendererWrapper {
         return new RendererWrapper(dialect);
     }
 
+    public static String render(Dialect dialect, Segment segment) {
+        return new RendererWrapper(dialect).render(segment);
+    }
+
     public void setInterceptors(List<Interceptor> interceptors) {
         this.interceptors = interceptors;
     }
