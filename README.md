@@ -7,12 +7,11 @@
 ## 特性
 
 
-- 保留spring data jdbc所有功能
-- 支持通过Java代码构建SQL增删改查语句
-- 支持常用增删改查语句
+- 保留spring data jdbc所有功能，封装常用SQL语句
+- 支持通过Java代码构建SQ语句
+- 支持Java驼峰字段名自动转为SQL下划线列名
 - 支持分页搜索
 - 支持SQL拦截器
-- 支持Java驼峰字段名自动转为SQL下划线列名
 
 
 
