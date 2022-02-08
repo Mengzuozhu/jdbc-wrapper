@@ -22,11 +22,11 @@ public class JdbcWrapperAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(JdbcWrapper.class)
-    JdbcWrapper jdbcWrapper(RelationalMappingContext mappingContext,
-                            NamedParameterJdbcOperations operations,
-                            JdbcConverter converter,
-                            Dialect dialect,
-                            ObjectProvider<List<Interceptor>> interceptors) {
+    public JdbcWrapper jdbcWrapper(RelationalMappingContext mappingContext,
+                                   NamedParameterJdbcOperations operations,
+                                   JdbcConverter converter,
+                                   Dialect dialect,
+                                   ObjectProvider<List<Interceptor>> interceptors) {
         JdbcWrapperImpl jdbcDecorator = new JdbcWrapperImpl(operations, mappingContext, converter, dialect);
         jdbcDecorator.setInterceptors(interceptors.getIfAvailable());
         return jdbcDecorator;
