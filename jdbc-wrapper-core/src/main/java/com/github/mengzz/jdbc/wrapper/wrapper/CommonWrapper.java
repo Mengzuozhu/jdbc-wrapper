@@ -24,6 +24,47 @@ public class CommonWrapper {
     }
 
     /**
+     * Literal of.
+     *
+     * @param content the content
+     * @return the literal
+     */
+    public static Literal<?> literalOf(Object content) {
+        if (content instanceof CharSequence) {
+            return SQL.literalOf((CharSequence) content);
+        }
+        return SQL.literalOf(content);
+    }
+
+    /**
+     * Literal of.
+     *
+     * @param contents the contents
+     * @return the literal [ ]
+     */
+    public static Literal<?>[] literalOf(Object... contents) {
+        if (contents == null) {
+            return new Literal<?>[0];
+        }
+
+        return literalOf(Arrays.asList(contents));
+    }
+
+    /**
+     * Literal of.
+     *
+     * @param contents the contents
+     * @return the literal [ ]
+     */
+    public static Literal<?>[] literalOf(Collection<Object> contents) {
+        if (contents == null) {
+            return new Literal<?>[0];
+        }
+
+        return contents.stream().map(CommonWrapper::literalOf).toArray(Literal[]::new);
+    }
+
+    /**
      * Column.
      *
      * @param name the name
@@ -45,47 +86,6 @@ public class CommonWrapper {
     public CommonWrapper enableCamelColumn(boolean enable) {
         enableCamelColumn = enable;
         return this;
-    }
-
-    /**
-     * Literal of.
-     *
-     * @param content the content
-     * @return the literal
-     */
-    public Literal<?> literalOf(Object content) {
-        if (content instanceof CharSequence) {
-            return SQL.literalOf((CharSequence) content);
-        }
-        return SQL.literalOf(content);
-    }
-
-    /**
-     * Literal of.
-     *
-     * @param contents the contents
-     * @return the literal [ ]
-     */
-    public Literal<?>[] literalOf(Object... contents) {
-        if (contents == null) {
-            return new Literal<?>[0];
-        }
-
-        return literalOf(Arrays.asList(contents));
-    }
-
-    /**
-     * Literal of.
-     *
-     * @param contents the contents
-     * @return the literal [ ]
-     */
-    public Literal<?>[] literalOf(Collection<Object> contents) {
-        if (contents == null) {
-            return new Literal<?>[0];
-        }
-
-        return contents.stream().map(this::literalOf).toArray(Literal[]::new);
     }
 
 }
