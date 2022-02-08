@@ -99,7 +99,11 @@ public class JdbcWrapperImpl implements JdbcWrapper {
 
     @Override
     public Map<String, Object> queryForMap(Select select) {
-        return getJdbcOperations().queryForMap(render(select));
+        try {
+            return getJdbcOperations().queryForMap(render(select));
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     @Override
