@@ -17,6 +17,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 @RequiredArgsConstructor
 public class JdbcWrapperProxyDemoImpl implements JdbcWrapperProxyDemo, JdbcWrapperProxy<User> {
+
     private final JdbcWrapper jdbcWrapper;
 
     @Override
@@ -27,6 +28,13 @@ public class JdbcWrapperProxyDemoImpl implements JdbcWrapperProxyDemo, JdbcWrapp
     @Override
     public Class<User> getGeneticClass() {
         return User.class;
+    }
+
+    @Override
+    public User queryForObject(UserQuery userQuery) {
+        ConditionWrapper where = ConditionWrapper.of(table())
+                .andEq(User.Fields.name, userQuery.getName());
+        return queryForObject(where);
     }
 
     @Override

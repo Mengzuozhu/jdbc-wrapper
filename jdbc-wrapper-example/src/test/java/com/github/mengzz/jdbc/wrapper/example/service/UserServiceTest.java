@@ -1,5 +1,6 @@
 package com.github.mengzz.jdbc.wrapper.example.service;
 
+import com.github.mengzz.jdbc.wrapper.example.BaseSpringTest;
 import com.github.mengzz.jdbc.wrapper.example.config.CustomWhereInterceptor;
 import com.github.mengzz.jdbc.wrapper.example.model.User;
 import com.github.mengzz.jdbc.wrapper.example.model.UserQuery;
@@ -27,11 +28,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * @author mengzz
  **/
-@SpringBootTest
-@ExtendWith(SpringExtension.class)
-// @ActiveProfiles(value = "mysql")
-@ActiveProfiles(value = "h2")
-class UserServiceTest {
+class UserServiceTest extends BaseSpringTest {
     private static final Integer AGE = 24;
     private static final Long BATCH_SIZE = 10L;
     private static final String TEST = "test";
@@ -193,10 +190,6 @@ class UserServiceTest {
                 .remarkMsg("spring jdbc demo" + i)
                 .age(AGE)
                 .build();
-    }
-
-    @SpringBootApplication(scanBasePackages = "com.github.mengzz.jdbc.wrapper.example")
-    static class InnerConfig {
     }
 
 }
