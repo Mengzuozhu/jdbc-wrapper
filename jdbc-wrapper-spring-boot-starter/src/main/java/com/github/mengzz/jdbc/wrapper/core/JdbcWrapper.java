@@ -133,6 +133,14 @@ public interface JdbcWrapper {
     Map<String, Object> queryForMap(Select select);
 
     /**
+     * Query for list.
+     *
+     * @param select the select
+     * @return the list
+     */
+    List<Map<String, Object>> queryForList(Select select);
+
+    /**
      * Update.
      *
      * @param update the update

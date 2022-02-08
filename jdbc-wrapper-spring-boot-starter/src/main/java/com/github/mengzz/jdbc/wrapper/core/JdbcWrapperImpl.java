@@ -120,6 +120,11 @@ public class JdbcWrapperImpl implements JdbcWrapper {
     }
 
     @Override
+    public List<Map<String, Object>> queryForList(Select select) {
+        return getJdbcOperations().queryForList(render(select));
+    }
+
+    @Override
     public int update(Update update) {
         return getJdbcOperations().update(render(update));
     }

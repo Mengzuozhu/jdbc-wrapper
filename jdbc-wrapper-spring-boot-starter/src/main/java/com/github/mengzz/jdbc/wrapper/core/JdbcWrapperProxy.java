@@ -151,6 +151,16 @@ public interface JdbcWrapperProxy<T> {
     }
 
     /**
+     * Query for list.
+     *
+     * @param select the select
+     * @return the list
+     */
+    default List<Map<String, Object>> queryForList(Select select) {
+        return getJdbcWrapper().queryForList(select);
+    }
+
+    /**
      * Delete.
      *
      * @param where the where
