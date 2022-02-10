@@ -1,6 +1,7 @@
 package com.github.mengzz.jdbc.wrapper.core;
 
 import com.github.mengzz.jdbc.wrapper.interceptor.Interceptor;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.relational.core.sql.*;
@@ -29,8 +30,9 @@ public interface JdbcWrapper {
      * @param where the where
      * @param type  the type
      * @return the long
+     * @throws DataAccessException the data access exception
      */
-    Long count(Condition where, Class<?> type);
+    Long count(Condition where, Class<?> type) throws DataAccessException;
 
     /**
      * Query.
@@ -39,8 +41,9 @@ public interface JdbcWrapper {
      * @param where the where
      * @param type  the type
      * @return the list
+     * @throws DataAccessException the data access exception
      */
-    <T> List<T> query(Condition where, Class<T> type);
+    <T> List<T> query(Condition where, Class<T> type) throws DataAccessException;
 
     /**
      * Query.
@@ -49,8 +52,9 @@ public interface JdbcWrapper {
      * @param select the select
      * @param type   the type
      * @return the list
+     * @throws DataAccessException the data access exception
      */
-    <T> List<T> query(Select select, Class<T> type);
+    <T> List<T> query(Select select, Class<T> type) throws DataAccessException;
 
     /**
      * Page.
@@ -60,8 +64,9 @@ public interface JdbcWrapper {
      * @param pageable the pageable
      * @param type     the type
      * @return the page
+     * @throws DataAccessException the data access exception
      */
-    <T> Page<T> page(Condition where, Pageable pageable, Class<T> type);
+    <T> Page<T> page(Condition where, Pageable pageable, Class<T> type) throws DataAccessException;
 
     /**
      * Page.
@@ -71,8 +76,9 @@ public interface JdbcWrapper {
      * @param pageable the pageable
      * @param type     the type
      * @return the page
+     * @throws DataAccessException the data access exception
      */
-    <T> Page<T> page(Select select, Pageable pageable, Class<T> type);
+    <T> Page<T> page(Select select, Pageable pageable, Class<T> type) throws DataAccessException;
 
     /**
      * Query first.
@@ -81,8 +87,9 @@ public interface JdbcWrapper {
      * @param where the where
      * @param type  the type
      * @return the t
+     * @throws DataAccessException the data access exception
      */
-    <T> T queryFirst(Condition where, Class<T> type);
+    <T> T queryFirst(Condition where, Class<T> type) throws DataAccessException;
 
     /**
      * Query first.
@@ -91,8 +98,9 @@ public interface JdbcWrapper {
      * @param select the select
      * @param type   the type
      * @return the t
+     * @throws DataAccessException the data access exception
      */
-    <T> T queryFirst(Select select, Class<T> type);
+    <T> T queryFirst(Select select, Class<T> type) throws DataAccessException;
 
     /**
      * Query for object.
@@ -101,8 +109,9 @@ public interface JdbcWrapper {
      * @param where the where
      * @param type  the type
      * @return the t
+     * @throws DataAccessException the data access exception
      */
-    <T> T queryForObject(Condition where, Class<T> type);
+    <T> T queryForObject(Condition where, Class<T> type) throws DataAccessException;
 
     /**
      * Query for object.
@@ -111,8 +120,9 @@ public interface JdbcWrapper {
      * @param select the select
      * @param type   the type
      * @return the t
+     * @throws DataAccessException the data access exception
      */
-    <T> T queryForObject(Select select, Class<T> type);
+    <T> T queryForObject(Select select, Class<T> type) throws DataAccessException;
 
     /**
      * Query for map.
@@ -121,32 +131,36 @@ public interface JdbcWrapper {
      * @param where the where
      * @param type  the type
      * @return the map
+     * @throws DataAccessException the data access exception
      */
-    <T> Map<String, Object> queryForMap(Condition where, Class<T> type);
+    <T> Map<String, Object> queryForMap(Condition where, Class<T> type) throws DataAccessException;
 
     /**
      * Query for map.
      *
      * @param select the select
      * @return the map
+     * @throws DataAccessException the data access exception
      */
-    Map<String, Object> queryForMap(Select select);
+    Map<String, Object> queryForMap(Select select) throws DataAccessException;
 
     /**
      * Query for list.
      *
      * @param select the select
      * @return the list
+     * @throws DataAccessException the data access exception
      */
-    List<Map<String, Object>> queryForList(Select select);
+    List<Map<String, Object>> queryForList(Select select) throws DataAccessException;
 
     /**
      * Update.
      *
      * @param update the update
      * @return the int
+     * @throws DataAccessException the data access exception
      */
-    int update(Update update);
+    int update(Update update) throws DataAccessException;
 
     /**
      * Delete.
@@ -155,21 +169,24 @@ public interface JdbcWrapper {
      * @param where the where
      * @param type  the type
      * @return the int
+     * @throws DataAccessException the data access exception
      */
-    <T> int delete(Condition where, Class<T> type);
+    <T> int delete(Condition where, Class<T> type) throws DataAccessException;
 
     /**
      * Delete.
      *
      * @param delete the delete
      * @return the int
+     * @throws DataAccessException the data access exception
      */
-    int delete(Delete delete);
+    int delete(Delete delete) throws DataAccessException;
 
     /**
      * Sets interceptors.
      *
      * @param interceptors the interceptors
+     * @throws DataAccessException the data access exception
      */
-    void setInterceptors(List<Interceptor> interceptors);
+    void setInterceptors(List<Interceptor> interceptors) throws DataAccessException;
 }
