@@ -138,6 +138,7 @@ public interface JdbcWrapper {
      * @return the map
      * @throws DataAccessException the data access exception
      */
+    @Nullable
     <T> Map<String, Object> queryForMap(Condition where, Class<T> type) throws DataAccessException;
 
     /**
@@ -147,6 +148,7 @@ public interface JdbcWrapper {
      * @return the map
      * @throws DataAccessException the data access exception
      */
+    @Nullable
     Map<String, Object> queryForMap(Select select) throws DataAccessException;
 
     /**
