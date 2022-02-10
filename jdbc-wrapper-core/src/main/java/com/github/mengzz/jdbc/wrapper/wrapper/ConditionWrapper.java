@@ -14,7 +14,7 @@ import java.util.function.Supplier;
  * @author mengzz
  */
 public class ConditionWrapper extends CommonWrapper implements Condition {
-    public static final String PERCENT = "%";
+    private static final String PERCENT = "%";
     private Condition holder = null;
     private boolean ignoreNull = true;
 
