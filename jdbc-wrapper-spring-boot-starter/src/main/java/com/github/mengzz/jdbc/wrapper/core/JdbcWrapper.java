@@ -5,6 +5,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.relational.core.sql.*;
+import org.springframework.lang.Nullable;
 
 import java.util.List;
 import java.util.Map;
@@ -89,6 +90,7 @@ public interface JdbcWrapper {
      * @return the t
      * @throws DataAccessException the data access exception
      */
+    @Nullable
     <T> T queryFirst(Condition where, Class<T> type) throws DataAccessException;
 
     /**
@@ -100,6 +102,7 @@ public interface JdbcWrapper {
      * @return the t
      * @throws DataAccessException the data access exception
      */
+    @Nullable
     <T> T queryFirst(Select select, Class<T> type) throws DataAccessException;
 
     /**
@@ -111,6 +114,7 @@ public interface JdbcWrapper {
      * @return the t
      * @throws DataAccessException the data access exception
      */
+    @Nullable
     <T> T queryForObject(Condition where, Class<T> type) throws DataAccessException;
 
     /**
@@ -122,6 +126,7 @@ public interface JdbcWrapper {
      * @return the t
      * @throws DataAccessException the data access exception
      */
+    @Nullable
     <T> T queryForObject(Select select, Class<T> type) throws DataAccessException;
 
     /**
