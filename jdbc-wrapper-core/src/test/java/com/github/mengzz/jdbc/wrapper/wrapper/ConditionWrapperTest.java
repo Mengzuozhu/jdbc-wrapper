@@ -106,6 +106,15 @@ class ConditionWrapperTest {
     }
 
     @Test
+    void containing() {
+        UserQuery userQuery = buildQuery();
+        ConditionWrapper wrapper = ConditionWrapper.of(table)
+                .andContaining(User.Fields.name, userQuery.getName())
+                .orContaining(User.Fields.remarkMsg, userQuery.getRemarkMsg());
+        assertEquals("user.name LIKE '%test%' OR user.remark_msg LIKE '%remark%'", wrapper.toString());
+    }
+
+    @Test
     void andIn() {
         UserQuery userQuery = buildQuery();
         ConditionWrapper wrapper = ConditionWrapper.of(table)

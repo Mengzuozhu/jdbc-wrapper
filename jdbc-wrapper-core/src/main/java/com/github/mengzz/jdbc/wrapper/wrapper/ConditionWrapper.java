@@ -14,6 +14,7 @@ import java.util.function.Supplier;
  * @author mengzz
  */
 public class ConditionWrapper extends CommonWrapper implements Condition {
+    public static final String PERCENT = "%";
     private Condition holder = null;
     private boolean ignoreNull = true;
 
@@ -208,7 +209,7 @@ public class ConditionWrapper extends CommonWrapper implements Condition {
      * @param content the content
      * @return the condition wrapper
      */
-    public ConditionWrapper andLike(String name, Object content) {
+    public ConditionWrapper andLike(String name, String content) {
         return and(content, () -> column(name).like(literalOf(content)));
     }
 
@@ -219,8 +220,30 @@ public class ConditionWrapper extends CommonWrapper implements Condition {
      * @param content the content
      * @return the condition wrapper
      */
-    public ConditionWrapper orLike(String name, Object content) {
+    public ConditionWrapper orLike(String name, String content) {
         return or(content, () -> column(name).like(literalOf(content)));
+    }
+
+    /**
+     * And like.
+     *
+     * @param name    the name
+     * @param content the content
+     * @return the condition wrapper
+     */
+    public ConditionWrapper andContaining(String name, String content) {
+        return and(content, () -> column(name).like(literalOf(getContainContent(content))));
+    }
+
+    /**
+     * Or like.
+     *
+     * @param name    the name
+     * @param content the content
+     * @return the condition wrapper
+     */
+    public ConditionWrapper orContaining(String name, String content) {
+        return or(content, () -> column(name).like(literalOf(getContainContent(content))));
     }
 
     /**
@@ -426,6 +449,10 @@ public class ConditionWrapper extends CommonWrapper implements Condition {
         if (holder != null) {
             holder.visit(visitor);
         }
+    }
+
+    private String getContainContent(String content) {
+        return PERCENT + content + PERCENT;
     }
 
     /**
