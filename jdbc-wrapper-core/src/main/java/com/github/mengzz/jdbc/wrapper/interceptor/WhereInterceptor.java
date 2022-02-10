@@ -8,7 +8,7 @@ import org.springframework.data.relational.core.sql.Where;
 public abstract class WhereInterceptor extends AbstractInterceptor<Where> {
 
     @Override
-    public Class<Where> getGenericClass() {
+    public Class<Where> getDomainType() {
         return Where.class;
     }
 }

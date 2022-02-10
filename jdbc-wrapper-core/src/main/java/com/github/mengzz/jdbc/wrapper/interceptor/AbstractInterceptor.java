@@ -15,7 +15,7 @@ public abstract class AbstractInterceptor<T> implements Interceptor {
             return;
         }
 
-        Class<T> generic = getGenericClass();
+        Class<T> generic = getDomainType();
         if (generic.isInstance(segment)) {
             T cast = generic.cast(segment);
             intercept(cast);
@@ -23,11 +23,11 @@ public abstract class AbstractInterceptor<T> implements Interceptor {
     }
 
     /**
-     * Gets generic class.
+     * Gets domain type.
      *
      * @return the generic class
      */
-    public abstract Class<T> getGenericClass();
+    public abstract Class<T> getDomainType();
 
     /**
      * Intercept.
