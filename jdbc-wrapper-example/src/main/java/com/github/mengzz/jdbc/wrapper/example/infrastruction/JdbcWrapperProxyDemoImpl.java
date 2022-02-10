@@ -28,7 +28,7 @@ public class JdbcWrapperProxyDemoImpl implements JdbcWrapperProxyDemo, JdbcWrapp
     }
 
     @Override
-    public Class<User> getGeneticClass() {
+    public Class<User> getDomainType() {
         return User.class;
     }
 

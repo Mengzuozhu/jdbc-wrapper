@@ -23,11 +23,11 @@ public interface JdbcWrapperProxy<T> {
     JdbcWrapper getJdbcWrapper();
 
     /**
-     * Gets genetic class.
+     * Gets domain type.
      *
      * @return the genetic class
      */
-    Class<T> getGeneticClass();
+    Class<T> getDomainType();
 
     /**
      * Table.
@@ -35,7 +35,7 @@ public interface JdbcWrapperProxy<T> {
      * @return the table
      */
     default Table table() {
-        return getJdbcWrapper().table(getGeneticClass());
+        return getJdbcWrapper().table(getDomainType());
     }
 
     /**
@@ -45,7 +45,7 @@ public interface JdbcWrapperProxy<T> {
      * @return the long
      */
     default Long count(Condition where) {
-        return getJdbcWrapper().count(where, getGeneticClass());
+        return getJdbcWrapper().count(where, getDomainType());
     }
 
     /**
@@ -55,7 +55,7 @@ public interface JdbcWrapperProxy<T> {
      * @return the list
      */
     default List<T> query(Condition where) {
-        return getJdbcWrapper().query(where, getGeneticClass());
+        return getJdbcWrapper().query(where, getDomainType());
     }
 
     /**
@@ -65,7 +65,7 @@ public interface JdbcWrapperProxy<T> {
      * @return the list
      */
     default List<T> query(Select select) {
-        return getJdbcWrapper().query(select, getGeneticClass());
+        return getJdbcWrapper().query(select, getDomainType());
     }
 
     /**
@@ -76,7 +76,7 @@ public interface JdbcWrapperProxy<T> {
      * @return the page
      */
     default Page<T> page(Condition where, Pageable pageable) {
-        return getJdbcWrapper().page(where, pageable, getGeneticClass());
+        return getJdbcWrapper().page(where, pageable, getDomainType());
     }
 
     /**
@@ -87,7 +87,7 @@ public interface JdbcWrapperProxy<T> {
      * @return the page
      */
     default Page<T> page(Select select, Pageable pageable) {
-        return getJdbcWrapper().page(select, pageable, getGeneticClass());
+        return getJdbcWrapper().page(select, pageable, getDomainType());
     }
 
     /**
@@ -97,7 +97,7 @@ public interface JdbcWrapperProxy<T> {
      * @return the t
      */
     default T queryFirst(Condition where) {
-        return getJdbcWrapper().queryFirst(where, getGeneticClass());
+        return getJdbcWrapper().queryFirst(where, getDomainType());
     }
 
     /**
@@ -107,7 +107,7 @@ public interface JdbcWrapperProxy<T> {
      * @return the t
      */
     default T queryFirst(Select select) {
-        return getJdbcWrapper().queryFirst(select, getGeneticClass());
+        return getJdbcWrapper().queryFirst(select, getDomainType());
     }
 
     /**
@@ -117,7 +117,7 @@ public interface JdbcWrapperProxy<T> {
      * @return the t
      */
     default T queryForObject(Condition where) {
-        return getJdbcWrapper().queryForObject(where, getGeneticClass());
+        return getJdbcWrapper().queryForObject(where, getDomainType());
     }
 
     /**
@@ -127,7 +127,7 @@ public interface JdbcWrapperProxy<T> {
      * @return the t
      */
     default T queryForObject(Select select) {
-        return getJdbcWrapper().queryForObject(select, getGeneticClass());
+        return getJdbcWrapper().queryForObject(select, getDomainType());
     }
 
     /**
@@ -137,7 +137,7 @@ public interface JdbcWrapperProxy<T> {
      * @return the map
      */
     default Map<String, Object> queryForMap(Condition where) {
-        return getJdbcWrapper().queryForMap(where, getGeneticClass());
+        return getJdbcWrapper().queryForMap(where, getDomainType());
     }
 
     /**
@@ -167,7 +167,7 @@ public interface JdbcWrapperProxy<T> {
      * @return the int
      */
     default int delete(Condition where) {
-        return getJdbcWrapper().delete(where, getGeneticClass());
+        return getJdbcWrapper().delete(where, getDomainType());
     }
 
     /**
