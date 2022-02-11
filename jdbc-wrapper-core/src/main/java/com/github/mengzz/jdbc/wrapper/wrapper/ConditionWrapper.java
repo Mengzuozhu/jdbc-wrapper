@@ -1,9 +1,11 @@
 package com.github.mengzz.jdbc.wrapper.wrapper;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.data.relational.core.sql.Condition;
 import org.springframework.data.relational.core.sql.Conditions;
 import org.springframework.data.relational.core.sql.Table;
 import org.springframework.data.relational.core.sql.Visitor;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
 import java.util.function.Supplier;
@@ -254,6 +256,10 @@ public class ConditionWrapper extends CommonWrapper implements Condition {
      * @return the condition wrapper
      */
     public ConditionWrapper andIn(String name, Object... contents) {
+        if (ignoreNull && ArrayUtils.isEmpty(contents)) {
+            return this;
+        }
+
         return and(contents, () -> column(name).in(literalOf(contents)));
     }
 
@@ -265,6 +271,10 @@ public class ConditionWrapper extends CommonWrapper implements Condition {
      * @return the condition wrapper
      */
     public ConditionWrapper orIn(String name, Object... contents) {
+        if (ignoreNull && ArrayUtils.isEmpty(contents)) {
+            return this;
+        }
+
         return or(contents, () -> column(name).in(literalOf(contents)));
     }
 
@@ -298,6 +308,10 @@ public class ConditionWrapper extends CommonWrapper implements Condition {
      * @return the condition wrapper
      */
     public ConditionWrapper andNotIn(String name, Object... contents) {
+        if (ignoreNull && ArrayUtils.isEmpty(contents)) {
+            return this;
+        }
+
         return and(contents, () -> column(name).notIn(literalOf(contents)));
     }
 
@@ -309,6 +323,10 @@ public class ConditionWrapper extends CommonWrapper implements Condition {
      * @return the condition wrapper
      */
     public ConditionWrapper orNotIn(String name, Object... contents) {
+        if (ignoreNull && ArrayUtils.isEmpty(contents)) {
+            return this;
+        }
+
         return or(contents, () -> column(name).notIn(literalOf(contents)));
     }
 
@@ -463,8 +481,13 @@ public class ConditionWrapper extends CommonWrapper implements Condition {
      * @return the condition wrapper
      */
     private ConditionWrapper and(Object content, Supplier<Condition> supplier) {
-        if (ignoreNull && content == null) {
-            return this;
+        if (ignoreNull) {
+            if (content == null) {
+                return this;
+            }
+            if (content instanceof Collection && CollectionUtils.isEmpty((Collection<?>) content)) {
+                return this;
+            }
         }
 
         Condition condition = supplier.get();

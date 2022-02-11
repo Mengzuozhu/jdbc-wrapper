@@ -33,6 +33,14 @@ class ConditionWrapperTest {
     }
 
     @Test
+    void ignoreWhenEmpty() {
+        ConditionWrapper wrapper = ConditionWrapper.of(table)
+                .ignoreNullValue(true)
+                .andEq(User.Fields.name, Collections.emptyList());
+        assertEquals("1 = 1", wrapper.toString());
+    }
+
+    @Test
     void andEq() {
         UserQuery userQuery = buildQuery();
         ConditionWrapper wrapper = ConditionWrapper.of(table)
