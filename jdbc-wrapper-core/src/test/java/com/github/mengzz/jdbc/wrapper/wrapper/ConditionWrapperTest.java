@@ -3,7 +3,9 @@ package com.github.mengzz.jdbc.wrapper.wrapper;
 import com.github.mengzz.jdbc.wrapper.model.User;
 import com.github.mengzz.jdbc.wrapper.model.UserQuery;
 import org.junit.jupiter.api.Test;
+import org.springframework.data.relational.core.dialect.MySqlDialect;
 import org.springframework.data.relational.core.sql.SQL;
+import org.springframework.data.relational.core.sql.Select;
 import org.springframework.data.relational.core.sql.Table;
 
 import java.util.Collections;
@@ -19,6 +21,7 @@ class ConditionWrapperTest {
     private static final String REMARK = "remark";
     private static final long MONEY = 95L;
     private final Table table = SQL.table("user");
+    private RendererWrapper rendererWrapper = RendererWrapper.create(MySqlDialect.INSTANCE);
 
     @Test
     void ignoreNullValue() {
@@ -138,6 +141,25 @@ class ConditionWrapperTest {
                 .andNotIn(User.Fields.name, userQuery.getName())
                 .andNotIn(User.Fields.age, Collections.singletonList(userQuery.getAge()));
         assertEquals("user.name NOT IN ('test') AND user.age NOT IN (20)", wrapper.toString());
+    }
+
+    @Test
+    void inSubSelect() {
+        Table other = SQL.table("other");
+        Select subSelect = Select.builder()
+                .select(other.columns(User.Fields.id))
+                .from(other)
+                .build();
+
+        ConditionWrapper wrapper = ConditionWrapper.of(table)
+                .andIn(User.Fields.id, subSelect);
+        Select res = Select.builder()
+                .select(table.columns(User.Fields.id))
+                .from(table)
+                .where(wrapper)
+                .build();
+        String render = rendererWrapper.render(res);
+        assertEquals("SELECT user.id FROM user WHERE user.id IN (SELECT other.id FROM other)", render);
     }
 
     @Test

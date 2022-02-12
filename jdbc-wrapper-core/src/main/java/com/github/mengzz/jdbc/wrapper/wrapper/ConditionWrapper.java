@@ -1,10 +1,7 @@
 package com.github.mengzz.jdbc.wrapper.wrapper;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.springframework.data.relational.core.sql.Condition;
-import org.springframework.data.relational.core.sql.Conditions;
-import org.springframework.data.relational.core.sql.Table;
-import org.springframework.data.relational.core.sql.Visitor;
+import org.springframework.data.relational.core.sql.*;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
@@ -301,6 +298,28 @@ public class ConditionWrapper extends CommonWrapper implements Condition {
     }
 
     /**
+     * And in.
+     *
+     * @param name      the name
+     * @param subSelect the subSelect
+     * @return the condition wrapper
+     */
+    public ConditionWrapper andIn(String name, Select subSelect) {
+        return and(subSelect, () -> column(name).in(subSelect));
+    }
+
+    /**
+     * Or in.
+     *
+     * @param name      the name
+     * @param subSelect the subSelect
+     * @return the condition wrapper
+     */
+    public ConditionWrapper orIn(String name, Select subSelect) {
+        return or(subSelect, () -> column(name).in(subSelect));
+    }
+
+    /**
      * And not in.
      *
      * @param name     the name
@@ -350,6 +369,28 @@ public class ConditionWrapper extends CommonWrapper implements Condition {
      */
     public ConditionWrapper orNotIn(String name, Collection<Object> contents) {
         return or(contents, () -> column(name).notIn(literalOf(contents)));
+    }
+
+    /**
+     * And not in.
+     *
+     * @param name      the name
+     * @param subSelect the subSelect
+     * @return the condition wrapper
+     */
+    public ConditionWrapper andNotIn(String name, Select subSelect) {
+        return and(subSelect, () -> column(name).notIn(subSelect));
+    }
+
+    /**
+     * Or not in.
+     *
+     * @param name      the name
+     * @param subSelect the subSelect
+     * @return the condition wrapper
+     */
+    public ConditionWrapper orNotIn(String name, Select subSelect) {
+        return or(subSelect, () -> column(name).notIn(subSelect));
     }
 
     /**
