@@ -42,8 +42,8 @@ public class RendererWrapper {
     public String render(Segment segment) {
         if (!CollectionUtils.isEmpty(interceptors)) {
             // custom interceptor
-            for (Visitor visitor : interceptors) {
-                segment.visit(visitor);
+            for (Interceptor visitor : interceptors) {
+                segment = visitor.intercept(segment);
             }
         }
 

@@ -24,11 +24,6 @@ public class ConditionVisitor extends AbstractVisitor<Condition> {
     }
 
     @Override
-    public Class<Condition> getDomainType() {
-        return Condition.class;
-    }
-
-    @Override
     public void intercept(Condition cond) {
         // intercept first
         if (condition == null) {

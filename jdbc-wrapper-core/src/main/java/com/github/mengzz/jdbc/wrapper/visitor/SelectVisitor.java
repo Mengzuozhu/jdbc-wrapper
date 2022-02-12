@@ -1,10 +1,10 @@
 package com.github.mengzz.jdbc.wrapper.visitor;
 
-import org.springframework.data.relational.core.sql.SelectList;
-import org.springframework.data.relational.core.sql.Visitable;
-import org.springframework.data.relational.core.sql.Visitor;
-import org.springframework.data.relational.core.sql.Where;
+import org.springframework.data.relational.core.sql.*;
 import org.springframework.lang.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The type Select interceptor.
@@ -12,22 +12,25 @@ import org.springframework.lang.Nullable;
  * @author mengzz
  */
 public class SelectVisitor implements Visitor {
-    private SelectList selectList;
+    private Select select;
     @Nullable
     private Where where;
+    private List<Expression> selectList;
+    private Condition condition;
+    private List<Join> joins = new ArrayList<>();
 
-    public static SelectVisitor of() {
-        return new SelectVisitor();
+    public SelectVisitor(Select select) {
+        this.select = select;
     }
 
-    public static SelectVisitor visit(Visitable visitable) {
-        SelectVisitor interceptor = of();
-        visitable.visit(interceptor);
+    public static SelectVisitor of(Select select) {
+        return new SelectVisitor(select);
+    }
+
+    public static SelectVisitor visit(Select select) {
+        SelectVisitor interceptor = of(select);
+        select.visit(interceptor);
         return interceptor;
-    }
-
-    public SelectList getSelectList() {
-        return selectList;
     }
 
     @Nullable
@@ -39,9 +42,31 @@ public class SelectVisitor implements Visitor {
     public void enter(Visitable segment) {
         if (segment instanceof Where) {
             where = (Where) segment;
+            condition = ConditionVisitor.visit(segment).getCondition();
         } else if (segment instanceof SelectList) {
-            selectList = (SelectList) segment;
+            selectList = ExpressionVisitor.visit(segment).getExpressions();
+        }
+
+        if (segment instanceof Join) {
+            joins.add((Join) segment);
         }
     }
 
+
+    public Select copyWithoutJoin() {
+        SelectBuilder.SelectAndFrom builder = Select.builder()
+                .select(selectList);
+        if (select.isDistinct()) {
+            builder = builder.distinct();
+        }
+        Select result = builder.from(this.select.getFrom().getTables())
+                .limitOffset(this.select.getLimit().orElse(-1),
+                        this.select.getOffset().orElse(-1))
+                .where(condition)
+                .orderBy(this.select.getOrderBy())
+                .lock(this.select.getLockMode())
+                .build();
+        return result;
+
+    }
 }

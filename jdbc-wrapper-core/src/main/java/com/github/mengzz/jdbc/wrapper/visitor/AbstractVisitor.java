@@ -1,5 +1,6 @@
 package com.github.mengzz.jdbc.wrapper.visitor;
 
+import org.springframework.core.ResolvableType;
 import org.springframework.data.relational.core.sql.Visitable;
 import org.springframework.data.relational.core.sql.Visitor;
 
@@ -10,21 +11,19 @@ import org.springframework.data.relational.core.sql.Visitor;
  * @author mengzz
  */
 public abstract class AbstractVisitor<T> implements Visitor {
-    @Override
-    public void enter(Visitable segment) {
-        Class<T> generic = getDomainType();
-        if (generic.isInstance(segment)) {
-            T cast = generic.cast(segment);
-            intercept(cast);
-        }
+    private final ResolvableType type;
+
+    public AbstractVisitor() {
+        this.type = ResolvableType.forClass(getClass()).as(AbstractVisitor.class).getGeneric(0);
     }
 
-    /**
-     * Gets domain type.
-     *
-     * @return the generic class
-     */
-    public abstract Class<T> getDomainType();
+    @SuppressWarnings("unchecked")
+    @Override
+    public void enter(Visitable segment) {
+        if (type.isInstance(segment)) {
+            intercept((T) segment);
+        }
+    }
 
     /**
      * Intercept.

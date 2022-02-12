@@ -1,29 +1,20 @@
 package com.github.mengzz.jdbc.wrapper.interceptor;
 
-import org.springframework.data.relational.core.sql.Visitable;
-import org.springframework.data.relational.core.sql.Visitor;
+import org.springframework.data.relational.core.sql.Segment;
 
 /**
  * The interface Interceptor.
  *
  * @author mengzz
  */
-public interface Interceptor extends Visitor {
-    /**
-     * Enter.
-     *
-     * @param segment the segment
-     */
-    @Override
-    default void enter(Visitable segment) {
-        intercept(segment);
-    }
+public interface Interceptor {
 
     /**
-     * Visit.
+     * Intercept.
      *
      * @param segment the segment
+     * @return the segment
      */
-    void intercept(Visitable segment);
+    Segment intercept(Segment segment);
 
 }

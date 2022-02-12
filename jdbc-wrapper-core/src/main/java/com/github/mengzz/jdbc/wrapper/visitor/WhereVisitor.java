@@ -26,11 +26,6 @@ public class WhereVisitor extends AbstractVisitor<Where> {
     }
 
     @Override
-    public Class<Where> getDomainType() {
-        return Where.class;
-    }
-
-    @Override
     public void intercept(Where where) {
         this.where = where;
         condition = ConditionVisitor.visit(where).getCondition();
