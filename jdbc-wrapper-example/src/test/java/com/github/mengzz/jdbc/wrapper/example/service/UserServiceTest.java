@@ -4,7 +4,6 @@ import com.github.mengzz.jdbc.wrapper.example.BaseSpringTest;
 import com.github.mengzz.jdbc.wrapper.example.config.CustomWhereInterceptor;
 import com.github.mengzz.jdbc.wrapper.example.model.User;
 import com.github.mengzz.jdbc.wrapper.example.model.UserQuery;
-import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,14 +112,15 @@ class UserServiceTest extends BaseSpringTest {
     }
 
     @Test
-    void pageShouldAll() {
+    void pageShouldOne() {
         saveAll();
-        int size = 5;
+        String name = TEST + 0;
+        PageRequest pageable = PageRequest.of(0, 5, Sort.by(Sort.Direction.DESC, User.Fields.name));
         Page<User> users = userService.page(UserQuery.builder()
-                .age(AGE)
-                .build(), PageRequest.of(0, size, Sort.by(Sort.Direction.DESC, User.Fields.name)));
-        assertEquals(size, users.getNumberOfElements());
-        assertEquals(BATCH_SIZE.longValue(), users.getTotalElements());
+                .name(name)
+                .build(), pageable);
+        assertEquals(1, users.getNumberOfElements());
+        assertEquals(1, users.getTotalElements());
     }
 
     @Test

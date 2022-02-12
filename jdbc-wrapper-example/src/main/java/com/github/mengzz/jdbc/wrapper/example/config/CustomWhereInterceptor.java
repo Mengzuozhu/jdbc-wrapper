@@ -1,6 +1,7 @@
 package com.github.mengzz.jdbc.wrapper.example.config;
 
 import com.github.mengzz.jdbc.wrapper.interceptor.WhereInterceptor;
+import org.springframework.data.relational.core.sql.Condition;
 import org.springframework.data.relational.core.sql.Where;
 
 /**
@@ -9,14 +10,15 @@ import org.springframework.data.relational.core.sql.Where;
  * @author mengzz
  */
 public class CustomWhereInterceptor extends WhereInterceptor {
-    private static Where record;
+    private static Condition record;
 
-    public static Where getRecord() {
+    public static Condition getRecord() {
         return record;
     }
 
     @Override
     public void intercept(Where segment) {
-        record = segment;
+        super.intercept(segment);
+        record = getCondition();
     }
 }
