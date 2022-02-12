@@ -1,8 +1,7 @@
 package com.github.mengzz.jdbc.wrapper.core;
 
 import com.github.mengzz.jdbc.wrapper.interceptor.Interceptor;
-import com.github.mengzz.jdbc.wrapper.interceptor.SelectInterceptor;
-import com.github.mengzz.jdbc.wrapper.interceptor.WhereInterceptor;
+import com.github.mengzz.jdbc.wrapper.visitor.WhereVisitor;
 import com.github.mengzz.jdbc.wrapper.wrapper.RendererWrapper;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
@@ -72,7 +71,7 @@ public class JdbcWrapperImpl implements JdbcWrapper {
     @Override
     public <T> Page<T> page(Select select, Pageable pageable, Class<T> type) {
         EntityRowMapper<T> entityRowMapper = getEntityRowMapper(type);
-        Condition where = WhereInterceptor.visit(select).getCondition();
+        Condition where = WhereVisitor.visit(select).getCondition();
         List<T> content = getJdbcOperations().query(render(select), entityRowMapper);
         return PageableExecutionUtils.getPage(content, pageable, () -> pageCount(where, type));
     }

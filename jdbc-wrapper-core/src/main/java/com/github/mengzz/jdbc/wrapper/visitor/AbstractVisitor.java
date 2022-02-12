@@ -1,20 +1,17 @@
-package com.github.mengzz.jdbc.wrapper.interceptor;
+package com.github.mengzz.jdbc.wrapper.visitor;
 
 import org.springframework.data.relational.core.sql.Visitable;
+import org.springframework.data.relational.core.sql.Visitor;
 
 /**
- * The type Abstract interceptor.
+ * The type Abstract visitor.
  *
  * @param <T> the type parameter
  * @author mengzz
  */
-public abstract class AbstractInterceptor<T> implements Interceptor {
+public abstract class AbstractVisitor<T> implements Visitor {
     @Override
-    public void intercept(Visitable segment) {
-        if (segment == null) {
-            return;
-        }
-
+    public void enter(Visitable segment) {
         Class<T> generic = getDomainType();
         if (generic.isInstance(segment)) {
             T cast = generic.cast(segment);

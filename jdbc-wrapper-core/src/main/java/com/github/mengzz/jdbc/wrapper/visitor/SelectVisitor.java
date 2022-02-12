@@ -1,7 +1,8 @@
-package com.github.mengzz.jdbc.wrapper.interceptor;
+package com.github.mengzz.jdbc.wrapper.visitor;
 
 import org.springframework.data.relational.core.sql.SelectList;
 import org.springframework.data.relational.core.sql.Visitable;
+import org.springframework.data.relational.core.sql.Visitor;
 import org.springframework.data.relational.core.sql.Where;
 import org.springframework.lang.Nullable;
 
@@ -10,17 +11,17 @@ import org.springframework.lang.Nullable;
  *
  * @author mengzz
  */
-public class SelectInterceptor implements Interceptor {
+public class SelectVisitor implements Visitor {
     private SelectList selectList;
     @Nullable
     private Where where;
 
-    public static SelectInterceptor of() {
-        return new SelectInterceptor();
+    public static SelectVisitor of() {
+        return new SelectVisitor();
     }
 
-    public static SelectInterceptor visit(Visitable visitable) {
-        SelectInterceptor interceptor = of();
+    public static SelectVisitor visit(Visitable visitable) {
+        SelectVisitor interceptor = of();
         visitable.visit(interceptor);
         return interceptor;
     }
@@ -35,11 +36,7 @@ public class SelectInterceptor implements Interceptor {
     }
 
     @Override
-    public void intercept(Visitable segment) {
-        if (segment == null) {
-            return;
-        }
-
+    public void enter(Visitable segment) {
         if (segment instanceof Where) {
             where = (Where) segment;
         } else if (segment instanceof SelectList) {

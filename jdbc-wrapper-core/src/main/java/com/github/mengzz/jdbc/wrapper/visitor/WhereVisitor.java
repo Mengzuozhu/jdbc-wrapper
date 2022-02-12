@@ -1,4 +1,4 @@
-package com.github.mengzz.jdbc.wrapper.interceptor;
+package com.github.mengzz.jdbc.wrapper.visitor;
 
 import org.springframework.data.relational.core.sql.Condition;
 import org.springframework.data.relational.core.sql.Visitable;
@@ -7,12 +7,12 @@ import org.springframework.data.relational.core.sql.Where;
 /**
  * @author mengzz
  **/
-public class WhereInterceptor extends AbstractInterceptor<Where> {
+public class WhereVisitor extends AbstractVisitor<Where> {
     private Condition condition;
     private Where where;
 
-    public static WhereInterceptor visit(Visitable visitable) {
-        WhereInterceptor interceptor = new WhereInterceptor();
+    public static WhereVisitor visit(Visitable visitable) {
+        WhereVisitor interceptor = new WhereVisitor();
         visitable.visit(interceptor);
         return interceptor;
     }
@@ -33,7 +33,6 @@ public class WhereInterceptor extends AbstractInterceptor<Where> {
     @Override
     public void intercept(Where where) {
         this.where = where;
-        // 探测where对应的Condition
-        condition = ConditionInterceptor.visit(where).getCondition();
+        condition = ConditionVisitor.visit(where).getCondition();
     }
 }

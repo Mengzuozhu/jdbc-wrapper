@@ -5,6 +5,7 @@ import org.springframework.data.relational.core.dialect.Dialect;
 import org.springframework.data.relational.core.dialect.RenderContextFactory;
 import org.springframework.data.relational.core.sql.*;
 import org.springframework.data.relational.core.sql.render.SqlRenderer;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,9 +40,11 @@ public class RendererWrapper {
      * @return the string
      */
     public String render(Segment segment) {
-        // custom interceptor
-        for (Visitor visitor : interceptors) {
-            segment.visit(visitor);
+        if (!CollectionUtils.isEmpty(interceptors)) {
+            // custom interceptor
+            for (Visitor visitor : interceptors) {
+                segment.visit(visitor);
+            }
         }
 
         if (segment instanceof Select) {

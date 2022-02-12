@@ -15,6 +15,6 @@ import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 public class JdbcConfiguration {
     @Bean
     public Interceptor customWhereVisitor() {
-        return new CustomWhereInterceptor();
+        return null;
     }
 }

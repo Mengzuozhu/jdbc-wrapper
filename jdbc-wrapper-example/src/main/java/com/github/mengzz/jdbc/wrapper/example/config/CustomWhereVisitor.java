@@ -1,6 +1,6 @@
 package com.github.mengzz.jdbc.wrapper.example.config;
 
-import com.github.mengzz.jdbc.wrapper.interceptor.WhereInterceptor;
+import com.github.mengzz.jdbc.wrapper.visitor.WhereVisitor;
 import org.springframework.data.relational.core.sql.Condition;
 import org.springframework.data.relational.core.sql.Where;
 
@@ -9,7 +9,7 @@ import org.springframework.data.relational.core.sql.Where;
  *
  * @author mengzz
  */
-public class CustomWhereInterceptor extends WhereInterceptor {
+public class CustomWhereVisitor extends WhereVisitor {
     private static Condition record;
 
     public static Condition getRecord() {

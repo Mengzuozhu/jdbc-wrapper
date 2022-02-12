@@ -1,4 +1,4 @@
-package com.github.mengzz.jdbc.wrapper.interceptor;
+package com.github.mengzz.jdbc.wrapper.visitor;
 
 import org.springframework.data.relational.core.sql.Condition;
 import org.springframework.data.relational.core.sql.Visitable;
@@ -6,15 +6,15 @@ import org.springframework.data.relational.core.sql.Visitable;
 /**
  * @author mengzz
  **/
-public class ConditionInterceptor extends AbstractInterceptor<Condition> {
+public class ConditionVisitor extends AbstractVisitor<Condition> {
     private Condition condition;
 
-    public static ConditionInterceptor of() {
-        return new ConditionInterceptor();
+    public static ConditionVisitor of() {
+        return new ConditionVisitor();
     }
 
-    public static ConditionInterceptor visit(Visitable visitable) {
-        ConditionInterceptor interceptor = new ConditionInterceptor();
+    public static ConditionVisitor visit(Visitable visitable) {
+        ConditionVisitor interceptor = new ConditionVisitor();
         visitable.visit(interceptor);
         return interceptor;
     }
