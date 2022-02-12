@@ -33,6 +33,7 @@ public class WhereInterceptor extends AbstractInterceptor<Where> {
     @Override
     public void intercept(Where where) {
         this.where = where;
+        // 探测where对应的Condition
         condition = ConditionInterceptor.visit(where).getCondition();
     }
 }
