@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.OptionalLong;
 
 /**
+ * The type Select proxy.
+ *
  * @author mengzz
- **/
+ */
 public class SelectProxy extends CommonProxy implements Select, SqlProxy {
     private final Select select;
 

@@ -5,8 +5,10 @@ import org.springframework.data.relational.core.sql.Visitor;
 import org.springframework.util.Assert;
 
 /**
+ * The type Delete proxy.
+ *
  * @author mengzz
- **/
+ */
 public class DeleteProxy extends CommonProxy implements Delete {
 
     public DeleteProxy(Delete delete) {

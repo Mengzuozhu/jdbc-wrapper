@@ -4,6 +4,7 @@ import com.github.mengzz.jdbc.wrapper.interceptor.SqlInterceptor;
 import com.github.mengzz.jdbc.wrapper.proxy.DeleteProxy;
 import com.github.mengzz.jdbc.wrapper.proxy.SelectProxy;
 import com.github.mengzz.jdbc.wrapper.proxy.SqlProxy;
+import com.github.mengzz.jdbc.wrapper.proxy.UpdateProxy;
 import org.springframework.data.relational.core.dialect.Dialect;
 import org.springframework.data.relational.core.dialect.RenderContextFactory;
 import org.springframework.data.relational.core.sql.*;
@@ -55,11 +56,14 @@ public class RendererWrapper {
             return sqlRenderer.render(proxy);
         }
         if (segment instanceof Update) {
-            return sqlRenderer.render((Update) segment);
+            UpdateProxy proxy = UpdateProxy.of((Update) segment);
+            intercept(proxy);
+            return sqlRenderer.render(proxy);
         }
         if (segment instanceof Insert) {
             return sqlRenderer.render((Insert) segment);
         }
+
         throw new UnsupportedOperationException("Unsupported SQL");
     }
 
