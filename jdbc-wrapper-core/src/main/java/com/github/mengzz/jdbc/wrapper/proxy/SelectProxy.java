@@ -3,7 +3,6 @@ package com.github.mengzz.jdbc.wrapper.proxy;
 import com.github.mengzz.jdbc.wrapper.visitor.ConditionVisitor;
 import com.github.mengzz.jdbc.wrapper.visitor.SelectVisitor;
 import org.springframework.data.relational.core.sql.*;
-import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 import java.util.List;
@@ -12,16 +11,15 @@ import java.util.OptionalLong;
 /**
  * @author mengzz
  **/
-public class SelectProxy implements Select, SqlProxy {
+public class SelectProxy extends CommonProxy implements Select, SqlProxy {
     private final Select select;
 
     private List<Join> joins;
     private SelectList selectList;
-    private Where where;
-    private Condition condition;
 
     public SelectProxy(Select select) {
         this.select = select;
+        from = select.getFrom();
         SelectVisitor visitor = SelectVisitor.visit(select);
         where = visitor.getWhere();
         joins = visitor.getJoins();
@@ -29,14 +27,8 @@ public class SelectProxy implements Select, SqlProxy {
         condition = ConditionVisitor.visit(where).getCondition();
     }
 
-    @Override
-    public Condition getWhere() {
-        return condition;
-    }
-
-    @Override
-    public void setWhere(Condition condition) {
-        this.condition = condition;
+    public static SelectProxy of(Select select) {
+        return new SelectProxy(select);
     }
 
     @Override
@@ -80,10 +72,6 @@ public class SelectProxy implements Select, SqlProxy {
         getFrom().visit(visitor);
         joins.forEach(it -> it.visit(visitor));
 
-        if (condition != null) {
-            updateWhere();
-        }
-
         visitIfNotNull(where, visitor);
 
         getOrderBy().forEach(it -> it.visit(visitor));
@@ -91,19 +79,4 @@ public class SelectProxy implements Select, SqlProxy {
         visitor.leave(this);
     }
 
-    private void updateWhere() {
-        Select select = Select.builder()
-                .select(Expressions.asterisk())
-                .from(getFrom().getTables())
-                .where(condition)
-                .build();
-        where = SelectVisitor.visit(select).getWhere();
-    }
-
-    private void visitIfNotNull(@Nullable Visitable visitable, Visitor visitor) {
-
-        if (visitable != null) {
-            visitable.visit(visitor);
-        }
-    }
 }

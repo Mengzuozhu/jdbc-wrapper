@@ -12,23 +12,22 @@ import java.util.List;
  * @author mengzz
  */
 public class SelectVisitor implements Visitor {
-    private Select select;
     @Nullable
     private Where where;
     private List<Join> joins = new ArrayList<>();
     private SelectList selectList;
+    private From from;
 
-    public SelectVisitor(Select select) {
-        this.select = select;
+    public SelectVisitor() {
     }
 
-    public static SelectVisitor of(Select select) {
-        return new SelectVisitor(select);
+    public static SelectVisitor of() {
+        return new SelectVisitor();
     }
 
-    public static SelectVisitor visit(Select select) {
-        SelectVisitor interceptor = of(select);
-        select.visit(interceptor);
+    public static SelectVisitor visit(Visitable visitable) {
+        SelectVisitor interceptor = of();
+        visitable.visit(interceptor);
         return interceptor;
     }
 
@@ -45,6 +44,10 @@ public class SelectVisitor implements Visitor {
         return where;
     }
 
+    public From getFrom() {
+        return from;
+    }
+
     @Override
     public void enter(Visitable segment) {
         if (segment instanceof Where) {
@@ -53,7 +56,8 @@ public class SelectVisitor implements Visitor {
             selectList = (SelectList) segment;
         } else if (segment instanceof Join) {
             joins.add((Join) segment);
+        } else if (segment instanceof From) {
+            from = (From) segment;
         }
     }
-
 }

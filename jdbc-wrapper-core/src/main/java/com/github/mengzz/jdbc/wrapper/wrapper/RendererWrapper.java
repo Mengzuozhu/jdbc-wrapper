@@ -1,6 +1,7 @@
 package com.github.mengzz.jdbc.wrapper.wrapper;
 
 import com.github.mengzz.jdbc.wrapper.interceptor.SqlInterceptor;
+import com.github.mengzz.jdbc.wrapper.proxy.DeleteProxy;
 import com.github.mengzz.jdbc.wrapper.proxy.SelectProxy;
 import com.github.mengzz.jdbc.wrapper.proxy.SqlProxy;
 import org.springframework.data.relational.core.dialect.Dialect;
@@ -44,12 +45,14 @@ public class RendererWrapper {
     public String render(Segment segment) {
 
         if (segment instanceof Select) {
-            SelectProxy selectProxy = new SelectProxy((Select) segment);
-            intercept(selectProxy);
-            return sqlRenderer.render(selectProxy);
+            SelectProxy proxy = SelectProxy.of((Select) segment);
+            intercept(proxy);
+            return sqlRenderer.render(proxy);
         }
         if (segment instanceof Delete) {
-            return sqlRenderer.render((Delete) segment);
+            DeleteProxy proxy = DeleteProxy.of((Delete) segment);
+            intercept(proxy);
+            return sqlRenderer.render(proxy);
         }
         if (segment instanceof Update) {
             return sqlRenderer.render((Update) segment);
@@ -60,14 +63,13 @@ public class RendererWrapper {
         throw new UnsupportedOperationException("Unsupported SQL");
     }
 
-    private SqlProxy intercept(SqlProxy segment) {
+    private void intercept(SqlProxy sqlProxy) {
         if (!CollectionUtils.isEmpty(sqlInterceptors)) {
             // custom interceptor
-            for (SqlInterceptor visitor : sqlInterceptors) {
-                segment = visitor.intercept(segment);
+            for (SqlInterceptor interceptor : sqlInterceptors) {
+                interceptor.intercept(sqlProxy);
             }
         }
-        return segment;
     }
 
 }

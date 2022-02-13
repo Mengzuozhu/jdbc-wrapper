@@ -13,8 +13,7 @@ public interface SqlInterceptor {
      * Intercept.
      *
      * @param sqlProxy the sqlProxy
-     * @return the sql proxy
      */
-    SqlProxy intercept(SqlProxy sqlProxy);
+    void intercept(SqlProxy sqlProxy);
 
 }
