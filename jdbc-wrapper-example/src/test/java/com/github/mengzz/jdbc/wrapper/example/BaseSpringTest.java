@@ -48,6 +48,7 @@ public class BaseSpringTest {
                 .name(TEST + i)
                 .remarkMsg("jdbc wrapper demo" + i)
                 .age(AGE)
+                .tenant(TEST)
                 .build();
     }
 

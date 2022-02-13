@@ -27,6 +27,7 @@ public class User {
     private String name;
     private String remarkMsg;
     private Integer age;
+    private String tenant;
     @LastModifiedDate
     private Instant modifyTime;
     @CreatedDate

@@ -1,10 +1,8 @@
 package com.github.mengzz.jdbc.wrapper.example.service;
 
 import com.github.mengzz.jdbc.wrapper.example.BaseSpringTest;
-import com.github.mengzz.jdbc.wrapper.example.config.CustomInterceptor;
 import com.github.mengzz.jdbc.wrapper.example.model.User;
 import com.github.mengzz.jdbc.wrapper.example.model.UserQuery;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -163,15 +161,6 @@ class UserServiceTest extends BaseSpringTest {
         List<User> users = userService.customFind(query);
         assertEquals(1, count);
         assertEquals(0, users.size());
-    }
-
-    @Test
-    void intercept() {
-        saveAll();
-        List<User> users = userService.customFind(UserQuery.builder()
-                .remarkMsg("%demo1%")
-                .build());
-        Assert.assertNotNull(CustomInterceptor.getRecord());
     }
 
 }

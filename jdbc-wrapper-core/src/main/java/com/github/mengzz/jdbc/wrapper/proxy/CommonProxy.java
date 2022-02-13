@@ -26,8 +26,29 @@ public class CommonProxy implements SqlProxy {
     }
 
     @Override
+    public From getFrom() {
+        return from;
+    }
+
+    @Override
+    public Table getTable() {
+        return table;
+    }
+
+    @Override
     public Condition getWhere() {
         return condition;
+    }
+
+    @Override
+    public List<Table> getTables() {
+        List<Table> tables;
+        if (from != null) {
+            tables = from.getTables();
+        } else {
+            tables = Collections.singletonList(table);
+        }
+        return tables;
     }
 
     @Override
@@ -47,16 +68,6 @@ public class CommonProxy implements SqlProxy {
         if (visitable != null) {
             visitable.visit(visitor);
         }
-    }
-
-    private List<Table> getTables() {
-        List<Table> tables;
-        if (from != null) {
-            tables = from.getTables();
-        } else {
-            tables = Collections.singletonList(table);
-        }
-        return tables;
     }
 
 }

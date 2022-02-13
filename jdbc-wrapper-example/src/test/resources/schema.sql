@@ -5,6 +5,7 @@ create table user
     name        varchar(20)                         not null,
     remark_msg  varchar(64)                         null,
     age         int                                 null,
+    tenant      varchar(64)                         null,
     modify_time timestamp default CURRENT_TIMESTAMP not null,
     create_time timestamp default CURRENT_TIMESTAMP not null,
     PRIMARY KEY (`id`)

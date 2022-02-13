@@ -13,8 +13,9 @@ import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 @EnableJdbcAuditing
 @EnableJdbcRepositories(basePackages = "com.github.mengzz.jdbc.wrapper.example.infrastruction")
 public class JdbcConfiguration {
-    @Bean
-    public SqlInterceptor customWhereVisitor() {
-        return new CustomInterceptor();
-    }
+    // @Bean
+    // public SqlInterceptor customWhereVisitor() {
+    //     return new CustomInterceptor();
+    // }
+
 }
