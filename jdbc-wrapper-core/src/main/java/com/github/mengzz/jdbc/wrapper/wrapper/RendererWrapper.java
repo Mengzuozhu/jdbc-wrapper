@@ -1,6 +1,7 @@
 package com.github.mengzz.jdbc.wrapper.wrapper;
 
 import com.github.mengzz.jdbc.wrapper.interceptor.Interceptor;
+import com.github.mengzz.jdbc.wrapper.proxy.SelectProxy;
 import org.springframework.data.relational.core.dialect.Dialect;
 import org.springframework.data.relational.core.dialect.RenderContextFactory;
 import org.springframework.data.relational.core.sql.*;
@@ -48,7 +49,8 @@ public class RendererWrapper {
         }
 
         if (segment instanceof Select) {
-            return sqlRenderer.render((Select) segment);
+            SelectProxy selectProxy = new SelectProxy((Select) segment);
+            return sqlRenderer.render(selectProxy);
         }
         if (segment instanceof Delete) {
             return sqlRenderer.render((Delete) segment);

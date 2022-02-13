@@ -15,9 +15,8 @@ public class SelectVisitor implements Visitor {
     private Select select;
     @Nullable
     private Where where;
-    private List<Expression> selectList;
-    private Condition condition;
     private List<Join> joins = new ArrayList<>();
+    private SelectList selectList;
 
     public SelectVisitor(Select select) {
         this.select = select;
@@ -33,6 +32,14 @@ public class SelectVisitor implements Visitor {
         return interceptor;
     }
 
+    public SelectList getSelectList() {
+        return selectList;
+    }
+
+    public List<Join> getJoins() {
+        return joins;
+    }
+
     @Nullable
     public Where getWhere() {
         return where;
@@ -42,31 +49,11 @@ public class SelectVisitor implements Visitor {
     public void enter(Visitable segment) {
         if (segment instanceof Where) {
             where = (Where) segment;
-            condition = ConditionVisitor.visit(segment).getCondition();
         } else if (segment instanceof SelectList) {
-            selectList = ExpressionVisitor.visit(segment).getExpressions();
-        }
-
-        if (segment instanceof Join) {
+            selectList = (SelectList) segment;
+        } else if (segment instanceof Join) {
             joins.add((Join) segment);
         }
     }
 
-
-    public Select copyWithoutJoin() {
-        SelectBuilder.SelectAndFrom builder = Select.builder()
-                .select(selectList);
-        if (select.isDistinct()) {
-            builder = builder.distinct();
-        }
-        Select result = builder.from(this.select.getFrom().getTables())
-                .limitOffset(this.select.getLimit().orElse(-1),
-                        this.select.getOffset().orElse(-1))
-                .where(condition)
-                .orderBy(this.select.getOrderBy())
-                .lock(this.select.getLockMode())
-                .build();
-        return result;
-
-    }
 }
