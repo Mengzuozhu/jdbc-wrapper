@@ -1,7 +1,6 @@
 package com.github.mengzz.jdbc.wrapper.proxy;
 
-import com.github.mengzz.jdbc.wrapper.visitor.ConditionVisitor;
-import com.github.mengzz.jdbc.wrapper.visitor.SelectVisitor;
+import com.github.mengzz.jdbc.wrapper.visitor.SqlVisitor;
 import org.springframework.data.relational.core.sql.*;
 import org.springframework.util.Assert;
 
@@ -18,13 +17,11 @@ public class SelectProxy extends CommonProxy implements Select, SqlProxy {
     private SelectList selectList;
 
     public SelectProxy(Select select) {
+        super(select);
         this.select = select;
-        from = select.getFrom();
-        SelectVisitor visitor = SelectVisitor.visit(select);
-        where = visitor.getWhere();
+        SqlVisitor visitor = SqlVisitor.visit(select);
         joins = visitor.getJoins();
         selectList = visitor.getSelectList();
-        condition = ConditionVisitor.visit(where).getCondition();
     }
 
     public static SelectProxy of(Select select) {

@@ -7,26 +7,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The type Select interceptor.
+ * The type Sql visitor.
  *
  * @author mengzz
  */
-public class SelectVisitor implements Visitor {
+public class SqlVisitor implements Visitor {
     @Nullable
     private Where where;
     private List<Join> joins = new ArrayList<>();
     private SelectList selectList;
     private From from;
 
-    public SelectVisitor() {
+    public SqlVisitor() {
     }
 
-    public static SelectVisitor of() {
-        return new SelectVisitor();
+    public static SqlVisitor of() {
+        return new SqlVisitor();
     }
 
-    public static SelectVisitor visit(Visitable visitable) {
-        SelectVisitor interceptor = of();
+    public static SqlVisitor visit(Visitable visitable) {
+        SqlVisitor interceptor = of();
         visitable.visit(interceptor);
         return interceptor;
     }

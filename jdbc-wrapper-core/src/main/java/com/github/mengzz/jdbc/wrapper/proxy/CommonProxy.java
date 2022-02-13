@@ -1,6 +1,7 @@
 package com.github.mengzz.jdbc.wrapper.proxy;
 
-import com.github.mengzz.jdbc.wrapper.visitor.SelectVisitor;
+import com.github.mengzz.jdbc.wrapper.visitor.ConditionVisitor;
+import com.github.mengzz.jdbc.wrapper.visitor.SqlVisitor;
 import org.springframework.data.relational.core.sql.*;
 import org.springframework.lang.Nullable;
 
@@ -12,6 +13,13 @@ public class CommonProxy implements SqlProxy {
     @Nullable
     protected Where where;
     protected From from;
+
+    public CommonProxy(Visitable visitable) {
+        SqlVisitor visitor = SqlVisitor.visit(visitable);
+        where = visitor.getWhere();
+        from = visitor.getFrom();
+        condition = ConditionVisitor.visit(where).getCondition();
+    }
 
     @Override
     public Condition getWhere() {
@@ -26,7 +34,7 @@ public class CommonProxy implements SqlProxy {
                 .from(from.getTables())
                 .where(condition)
                 .build();
-        where = SelectVisitor.visit(select).getWhere();
+        where = SqlVisitor.visit(select).getWhere();
     }
 
     protected void visitIfNotNull(@Nullable Visitable visitable, Visitor visitor) {
