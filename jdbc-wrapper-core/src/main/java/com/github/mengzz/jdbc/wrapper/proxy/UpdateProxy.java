@@ -1,10 +1,7 @@
 package com.github.mengzz.jdbc.wrapper.proxy;
 
 import com.github.mengzz.jdbc.wrapper.visitor.SqlVisitor;
-import org.springframework.data.relational.core.sql.Assignment;
-import org.springframework.data.relational.core.sql.Table;
-import org.springframework.data.relational.core.sql.Update;
-import org.springframework.data.relational.core.sql.Visitor;
+import org.springframework.data.relational.core.sql.*;
 import org.springframework.util.Assert;
 
 import java.util.List;
@@ -16,7 +13,6 @@ import java.util.List;
  */
 public class UpdateProxy extends CommonProxy implements Update {
     private final List<Assignment> assignments;
-    private Table table;
 
     public UpdateProxy(Update update) {
         super(update);

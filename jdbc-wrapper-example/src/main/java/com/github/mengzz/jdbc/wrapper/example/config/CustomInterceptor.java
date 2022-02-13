@@ -19,6 +19,6 @@ public class CustomInterceptor implements SqlInterceptor {
     @Override
     public void intercept(SqlProxy sqlProxy) {
         record = sqlProxy.getWhere();
-        sqlProxy.setWhere(record);
+        sqlProxy.updateWhere(record);
     }
 }

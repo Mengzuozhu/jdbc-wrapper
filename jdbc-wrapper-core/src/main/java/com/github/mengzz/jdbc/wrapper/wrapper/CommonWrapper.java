@@ -8,6 +8,7 @@ import org.springframework.data.relational.core.sql.Table;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * The type Common wrapper.
@@ -21,6 +22,10 @@ public class CommonWrapper {
 
     public CommonWrapper(Table table) {
         this.table = table;
+    }
+
+    public static CommonWrapper of(Table table) {
+        return new CommonWrapper(table);
     }
 
     /**
@@ -65,6 +70,17 @@ public class CommonWrapper {
     }
 
     /**
+     * Enable camel column.
+     *
+     * @param enable the enable
+     * @return the condition wrapper
+     */
+    public CommonWrapper enableCamelColumn(boolean enable) {
+        enableCamelColumn = enable;
+        return this;
+    }
+
+    /**
      * Column.
      *
      * @param name the name
@@ -78,14 +94,26 @@ public class CommonWrapper {
     }
 
     /**
-     * Enable camel column.
+     * Columns.
      *
-     * @param enable the enable
-     * @return the condition wrapper
+     * @param names the names
+     * @return the list
      */
-    public CommonWrapper enableCamelColumn(boolean enable) {
-        enableCamelColumn = enable;
-        return this;
+    public List<Column> columns(String... names) {
+        return columns(Arrays.asList(names));
+    }
+
+    /**
+     * Columns.
+     *
+     * @param names the names
+     * @return the list
+     */
+    public List<Column> columns(Collection<String> names) {
+        if (enableCamelColumn) {
+            names = CamelUtil.toUnderscore(names);
+        }
+        return table.columns(names);
     }
 
 }

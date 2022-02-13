@@ -5,6 +5,9 @@ import com.github.mengzz.jdbc.wrapper.visitor.SqlVisitor;
 import org.springframework.data.relational.core.sql.*;
 import org.springframework.lang.Nullable;
 
+import java.util.Collections;
+import java.util.List;
+
 /**
  * @author mengzz
  **/
@@ -13,6 +16,7 @@ public class CommonProxy implements SqlProxy {
     @Nullable
     protected Where where;
     protected From from;
+    protected Table table;
 
     public CommonProxy(Visitable visitable) {
         SqlVisitor visitor = SqlVisitor.visit(visitable);
@@ -27,11 +31,12 @@ public class CommonProxy implements SqlProxy {
     }
 
     @Override
-    public void setWhere(Condition condition) {
+    public void updateWhere(Condition condition) {
         this.condition = condition;
+        List<Table> tables = getTables();
         Select select = Select.builder()
                 .select(Expressions.asterisk())
-                .from(from.getTables())
+                .from(tables)
                 .where(condition)
                 .build();
         where = SqlVisitor.visit(select).getWhere();
@@ -42,6 +47,16 @@ public class CommonProxy implements SqlProxy {
         if (visitable != null) {
             visitable.visit(visitor);
         }
+    }
+
+    private List<Table> getTables() {
+        List<Table> tables;
+        if (from != null) {
+            tables = from.getTables();
+        } else {
+            tables = Collections.singletonList(table);
+        }
+        return tables;
     }
 
 }

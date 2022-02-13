@@ -16,10 +16,10 @@ public interface SqlProxy {
     Condition getWhere();
 
     /**
-     * Sets where.
+     * Update where.
      *
      * @param condition the condition
      */
-    void setWhere(Condition condition);
+    void updateWhere(Condition condition);
 
 }
