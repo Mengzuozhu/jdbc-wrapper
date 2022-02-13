@@ -1,6 +1,7 @@
 package com.github.mengzz.jdbc.wrapper.example.config;
 
-import com.github.mengzz.jdbc.wrapper.visitor.WhereVisitor;
+import com.github.mengzz.jdbc.wrapper.interceptor.SqlInterceptor;
+import com.github.mengzz.jdbc.wrapper.proxy.SqlProxy;
 import org.springframework.data.relational.core.sql.Condition;
 import org.springframework.data.relational.core.sql.Where;
 
@@ -9,7 +10,7 @@ import org.springframework.data.relational.core.sql.Where;
  *
  * @author mengzz
  */
-public class CustomWhereVisitor extends WhereVisitor {
+public class CustomInterceptor implements SqlInterceptor {
     private static Condition record;
 
     public static Condition getRecord() {
@@ -17,8 +18,8 @@ public class CustomWhereVisitor extends WhereVisitor {
     }
 
     @Override
-    public void intercept(Where segment) {
-        super.intercept(segment);
-        record = getCondition();
+    public SqlProxy intercept(SqlProxy sqlProxy) {
+        record = sqlProxy.getWhere();
+        return sqlProxy;
     }
 }

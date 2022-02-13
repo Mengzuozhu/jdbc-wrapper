@@ -2,7 +2,7 @@ package com.github.mengzz.jdbc.wrapper.config;
 
 import com.github.mengzz.jdbc.wrapper.core.JdbcWrapper;
 import com.github.mengzz.jdbc.wrapper.core.JdbcWrapperImpl;
-import com.github.mengzz.jdbc.wrapper.interceptor.Interceptor;
+import com.github.mengzz.jdbc.wrapper.interceptor.SqlInterceptor;
 import com.github.mengzz.jdbc.wrapper.wrapper.RendererWrapper;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -27,7 +27,7 @@ public class JdbcWrapperAutoConfiguration {
                                    NamedParameterJdbcOperations operations,
                                    JdbcConverter converter,
                                    Dialect dialect,
-                                   ObjectProvider<List<Interceptor>> interceptors) {
+                                   ObjectProvider<List<SqlInterceptor>> interceptors) {
         JdbcWrapperImpl jdbcDecorator = new JdbcWrapperImpl(operations, mappingContext, converter, dialect);
         jdbcDecorator.setInterceptors(interceptors.getIfAvailable());
         return jdbcDecorator;

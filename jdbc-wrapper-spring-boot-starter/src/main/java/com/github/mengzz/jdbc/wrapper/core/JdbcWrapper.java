@@ -1,6 +1,6 @@
 package com.github.mengzz.jdbc.wrapper.core;
 
-import com.github.mengzz.jdbc.wrapper.interceptor.Interceptor;
+import com.github.mengzz.jdbc.wrapper.interceptor.SqlInterceptor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -192,8 +192,8 @@ public interface JdbcWrapper {
     /**
      * Sets interceptors.
      *
-     * @param interceptors the interceptors
+     * @param sqlInterceptors the interceptors
      * @throws DataAccessException the data access exception
      */
-    void setInterceptors(List<Interceptor> interceptors) throws DataAccessException;
+    void setInterceptors(List<SqlInterceptor> sqlInterceptors) throws DataAccessException;
 }

@@ -15,7 +15,9 @@ public class ConditionVisitor extends AbstractVisitor<Condition> {
 
     public static ConditionVisitor visit(Visitable visitable) {
         ConditionVisitor interceptor = new ConditionVisitor();
-        visitable.visit(interceptor);
+        if (visitable != null) {
+            visitable.visit(interceptor);
+        }
         return interceptor;
     }
 

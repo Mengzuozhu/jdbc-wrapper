@@ -1,7 +1,7 @@
 package com.github.mengzz.jdbc.wrapper.example.service;
 
 import com.github.mengzz.jdbc.wrapper.example.BaseSpringTest;
-import com.github.mengzz.jdbc.wrapper.example.config.CustomWhereVisitor;
+import com.github.mengzz.jdbc.wrapper.example.config.CustomInterceptor;
 import com.github.mengzz.jdbc.wrapper.example.model.User;
 import com.github.mengzz.jdbc.wrapper.example.model.UserQuery;
 import org.junit.Assert;
@@ -171,7 +171,7 @@ class UserServiceTest extends BaseSpringTest {
         List<User> users = userService.customFind(UserQuery.builder()
                 .remarkMsg("%demo1%")
                 .build());
-        Assert.assertNotNull(CustomWhereVisitor.getRecord());
+        Assert.assertNotNull(CustomInterceptor.getRecord());
     }
 
 }

@@ -1,6 +1,6 @@
 package com.github.mengzz.jdbc.wrapper.core;
 
-import com.github.mengzz.jdbc.wrapper.interceptor.Interceptor;
+import com.github.mengzz.jdbc.wrapper.interceptor.SqlInterceptor;
 import com.github.mengzz.jdbc.wrapper.visitor.WhereVisitor;
 import com.github.mengzz.jdbc.wrapper.wrapper.RendererWrapper;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -141,8 +141,8 @@ public class JdbcWrapperImpl implements JdbcWrapper {
     }
 
     @Override
-    public void setInterceptors(List<Interceptor> interceptors) {
-        rendererWrapper.setInterceptors(interceptors);
+    public void setInterceptors(List<SqlInterceptor> sqlInterceptors) {
+        rendererWrapper.setSqlInterceptors(sqlInterceptors);
     }
 
     private <T> Long pageCount(Condition where, Class<T> type) {
